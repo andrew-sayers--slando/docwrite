@@ -128,6 +128,33 @@
             last_afterdocwrite_data = undefined;
         });
 
+        try {
+            var xhr = new XMLHttpRequest();
+            xhr.open( "GET", "./nested_docwrite_test.js", false );
+            xhr.send( null );
+        } catch (e) {
+            if ( navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ) {
+                alert(
+                    "Warning: AJAX requests don't seem to be working.\n" +
+                    "This will cause some tests to fail.\n\n" +
+                    "It looks like you're using Google Chrome.\n" +
+                    "If you're testing this on a local file,\n" +
+                    "try adding the following command-line option:\n" +
+                    "--allow-file-access-from-files\n\n" +
+                    "For more information, see:\n" +
+                    "http://code.google.com/p/chromium/issues/detail?id=47416\n" +
+                    "http://bugs.jquery.com/ticket/6703"
+                );
+            } else {
+                alert(
+                    "Warning: AJAX requests don't seem to be working.\n" +
+                    "This will cause some tests to fail.\n" +
+                    "For more information, see:\n" +
+                    "http://bugs.jquery.com/ticket/6703"
+                );
+            };
+        };
+
         test( "document.write() loading a file", function() {
             $('#functional-interface-target').docwrite(function(arg) {
                     document.write('<script type="text/javascript" src="nested_docwrite_test.js"></scr'+'ipt>');
